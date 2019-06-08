@@ -15,8 +15,12 @@
 //! The `num-integer` crate is tested for rustc 1.8 and greater.
 
 #![doc(html_root_url = "https://docs.rs/num-integer/0.1")]
+#![cfg_attr(target_env = "sgx", feature(rustc_private))]
 #![no_std]
-#[cfg(feature = "std")]
+#[cfg(all(feature = "mesalock_sgx", feature = "std", not(target_env = "sgx")))]
+extern crate sgx_tstd as std;
+
+#[cfg(all(feature = "mesalock_sgx", target_env = "sgx"))]
 extern crate std;
 
 extern crate num_traits as traits;
