@@ -17,13 +17,16 @@ exclude = ["/ci/*", "/.travis.yml", "/bors.toml"]
 features = ["std"]
 
 [dependencies.num-traits]
-version = "0.2.4"
-default-features = false
+git = "https://github.com/mesalock-linux/num-traits-sgx"
+
+[dependencies]
+sgx_tstd = { rev = "v1.0.8", git = "https://github.com/baidu/rust-sgx-sdk.git", optional = true }
 
 [features]
-default = ["std"]
+default = ["std", "mesalock_sgx", "i128"]
 i128 = ["num-traits/i128"]
-std = ["num-traits/std"]
+std = ["mesalock_sgx", "num-traits/std", "num-traits/mesalock_sgx"]
+mesalock_sgx = ["sgx_tstd"]
 
 [build-dependencies]
 autocfg = "0.1.3"
